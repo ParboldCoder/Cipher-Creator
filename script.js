@@ -1,105 +1,54 @@
+//I refactored the the script to look and feel cleaner to read
+
+
 // Array of special characters to be included in password
-var specialCharacters = [
-  '@',
-  '%',
-  '+',
-  '\\',
-  '/',
-  "'",
-  '!',
-  '#',
-  '$',
-  '^',
-  '?',
-  ':',
-  ',',
-  ')',
-  '(',
-  '}',
-  '{',
-  ']',
-  '[',
-  '~',
-  '-',
-  '_',
-  '.'
-];
+var specialCharacters = ['@', '%', '+', '\\', '/', "'", '!', '#', '$', '^', '?', ':', ',', ')', '(', '}', '{', ']', '[', '~', '-', '_', '.'];
 
 // Array of numeric characters to be included in password
-var numericCharacters = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+var numericCharacters = Array.from({ length: 10 }, (_, i) => String(i));
 
 // Array of lowercase characters to be included in password
-var lowerCasedCharacters = [
-  'a',
-  'b',
-  'c',
-  'd',
-  'e',
-  'f',
-  'g',
-  'h',
-  'i',
-  'j',
-  'k',
-  'l',
-  'm',
-  'n',
-  'o',
-  'p',
-  'q',
-  'r',
-  's',
-  't',
-  'u',
-  'v',
-  'w',
-  'x',
-  'y',
-  'z'
-];
+var lowerCasedCharacters = Array.from({ length: 26 }, (_, i) => String.fromCharCode(97 + i));
 
 // Array of uppercase characters to be included in password
-var upperCasedCharacters = [
-  'A',
-  'B',
-  'C',
-  'D',
-  'E',
-  'F',
-  'G',
-  'H',
-  'I',
-  'J',
-  'K',
-  'L',
-  'M',
-  'N',
-  'O',
-  'P',
-  'Q',
-  'R',
-  'S',
-  'T',
-  'U',
-  'V',
-  'W',
-  'X',
-  'Y',
-  'Z'
-];
+var upperCasedCharacters = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
 
 // Function to prompt user for password options
 function getPasswordOptions() {
+  var length = parseInt(prompt("Enter the length of your password (between 8 and 128 characters):"));
 
+  if (isNaN(length) || length < 8 || length > 128) {
+    alert("Please enter a valid number between 8 and 128.");
+    return null;
+  }
+
+  var includeLowercase = confirm("Include lowercase characters?");
+  var includeUppercase = confirm("Include uppercase characters?");
+  var includeNumeric = confirm("Include numeric characters?");
+  var includeSpecial = confirm("Include special characters?");
+
+  if (!includeLowercase && !includeUppercase && !includeNumeric && !includeSpecial) {
+    alert("At least one character type must be selected.");
+    return null;
+  }
+
+  return {
+    length: length,
+    includeLowercase: includeLowercase,
+    includeUppercase: includeUppercase,
+    includeNumeric: includeNumeric,
+    includeSpecial: includeSpecial
+  };
 }
 
 // Function for getting a random element from an array
 function getRandom(arr) {
-
+  var randomIndex = Math.floor(Math.random() * arr.length);
+  return arr[randomIndex];
 }
 
 // Function to generate password with user input
-function generatePassword() {
+function generatePassword(options) {
   if (!options) {
     var randomPassword = "";
     var possibleCharacters = lowerCasedCharacters.concat(upperCasedCharacters, numericCharacters, specialCharacters);
@@ -107,7 +56,7 @@ function generatePassword() {
     for (var i = 0; i < 12; i++) {
         randomPassword += getRandom(possibleCharacters);
     }
-    return "";
+    return randomPassword;
   }
 
   var possibleCharacters = [];
@@ -150,7 +99,8 @@ var generateBtn = document.querySelector('#generate');
 
 // Write password to the #password input
 function writePassword() {
-  var password = generatePassword();
+  var options = getPasswordOptions();
+  var password = generatePassword(options);
   var passwordText = document.querySelector('#password');
 
   passwordText.value = password;
