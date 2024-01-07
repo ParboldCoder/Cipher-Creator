@@ -1,110 +1,117 @@
-//I refactored the the script to look and feel cleaner to read
+/*I decided to refactor the code to clean up the clook of the code*/
 
+const specialCharacters = ['@', '%', '+', '\\', '/', "'", '!', '#', '$', '^', '?', ':', ',', ')', '(', '}', '{', ']', '[', '~', '-', '_', '.'];
+const numericCharacters = Array.from({ length: 10 }, (_, i) => String(i));
+const lowerCasedCharacters = Array.from({ length: 26 }, (_, i) => String.fromCharCode(97 + i));
+const upperCasedCharacters = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
 
-// Array of special characters to be included in password
-var specialCharacters = ['@', '%', '+', '\\', '/', "'", '!', '#', '$', '^', '?', ':', ',', ')', '(', '}', '{', ']', '[', '~', '-', '_', '.'];
+const options = {
+  specialCharacters,
+  numericCharacters,
+  lowerCasedCharacters,
+  upperCasedCharacters,
+};
 
-// Array of numeric characters to be included in password
-var numericCharacters = Array.from({ length: 10 }, (_, i) => String(i));
+const getRandomElement = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-// Array of lowercase characters to be included in password
-var lowerCasedCharacters = Array.from({ length: 26 }, (_, i) => String.fromCharCode(97 + i));
+/*Here I decided to change the way the password generator works as I felt the prompt at the top of the screen was not slear enough*/ 
 
-// Array of uppercase characters to be included in password
-var upperCasedCharacters = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
+const getPasswordOptions = () => {
+  const MIN_LENGTH = 8;
+  const MAX_LENGTH = 128;
 
-// Function to prompt user for password options
-function getPasswordOptions() {
-  var length = parseInt(prompt("Enter the length of your password (between 8 and 128 characters):"));
+  const length = document.getElementById('password-length').valueAsNumber;
 
-  if (isNaN(length) || length < 8 || length > 128) {
-    alert("Please enter a valid number between 8 and 128.");
+  if (isNaN(length) || length < MIN_LENGTH || length > MAX_LENGTH) {
+    alert(`Length must be a valid number between ${MIN_LENGTH} and ${MAX_LENGTH}`);
+    console.log(`Length must be a valid number between ${MIN_LENGTH} and ${MAX_LENGTH}.`);
     return null;
   }
 
-  var includeLowercase = confirm("Include lowercase characters?");
-  var includeUppercase = confirm("Include uppercase characters?");
-  var includeNumeric = confirm("Include numeric characters?");
-  var includeSpecial = confirm("Include special characters?");
+  const special = document.getElementById('specialCharacters').checked;
+  const numeric = document.getElementById('numericCharacters').checked;
+  const lowercase = document.getElementById('lowerCasedCharacters').checked;
+  const uppercase = document.getElementById('upperCasedCharacters').checked;
 
-  if (!includeLowercase && !includeUppercase && !includeNumeric && !includeSpecial) {
+  if (!lowercase && !uppercase && !numeric && !special) {
     alert("At least one character type must be selected.");
+    console.log("At least one character type must be selected.");
     return null;
   }
 
-  return {
-    length: length,
-    includeLowercase: includeLowercase,
-    includeUppercase: includeUppercase,
-    includeNumeric: includeNumeric,
-    includeSpecial: includeSpecial
-  };
-}
+  return { length, lowercase, uppercase, numeric, special };
+};
 
-// Function for getting a random element from an array
-function getRandom(arr) {
-  var randomIndex = Math.floor(Math.random() * arr.length);
-  return arr[randomIndex];
-}
+const getSelectedOptions = (passwordOptions) => {
+  const { lowercase, uppercase, numeric, special } = passwordOptions;
+  const selectedOptions = [];
 
-// Function to generate password with user input
-function generatePassword(options) {
-  if (!options) {
-    var randomPassword = "";
-    var possibleCharacters = lowerCasedCharacters.concat(upperCasedCharacters, numericCharacters, specialCharacters);
+  if (lowercase) selectedOptions.push(...lowerCasedCharacters);
+  if (uppercase) selectedOptions.push(...upperCasedCharacters);
+  if (numeric) selectedOptions.push(...numericCharacters);
+  if (special) selectedOptions.push(...specialCharacters);
 
-    for (var i = 0; i < 12; i++) {
-        randomPassword += getRandom(possibleCharacters);
-    }
-    return randomPassword;
-  }
+  return selectedOptions;
+};
 
-  var possibleCharacters = [];
-  var guaranteedCharacters = [];
+const generatePassword = (length, selectedOptions) =>
+  Array.from({ length }, () => getRandomElement(selectedOptions)).join('');
 
-  if (options.includeLowercase) {
-    possibleCharacters = possibleCharacters.concat(lowerCasedCharacters);
-    guaranteedCharacters.push(getRandom(lowerCasedCharacters));
-  }
-
-  if (options.includeUppercase) {
-    possibleCharacters = possibleCharacters.concat(upperCasedCharacters);
-    guaranteedCharacters.push(getRandom(upperCasedCharacters));
-  }
-
-  if (options.includeNumeric) {
-    possibleCharacters = possibleCharacters.concat(numericCharacters);
-    guaranteedCharacters.push(getRandom(numericCharacters));
-  }
-
-  if (options.includeSpecial) {
-    possibleCharacters = possibleCharacters.concat(specialCharacters);
-    guaranteedCharacters.push(getRandom(specialCharacters));
-  }
-
-  // Generate the password by selecting random characters from the possible characters
-  var generatedPassword = "";
-  for (var i = 0; i < options.length - guaranteedCharacters.length; i++) {
-    generatedPassword += getRandom(possibleCharacters);
-  }
-
-  // Add the guaranteed characters to the password
-  generatedPassword += guaranteedCharacters.join('');
-
-  return generatedPassword;
-}
-
-// Get references to the #generate element
-var generateBtn = document.querySelector('#generate');
-
-// Write password to the #password input
-function writePassword() {
-  var options = getPasswordOptions();
-  var password = generatePassword(options);
-  var passwordText = document.querySelector('#password');
+const writePassword = () => {
+  const passwordOptions = getPasswordOptions();
+  if (!passwordOptions) return;
+  const selectedOptions = getSelectedOptions(passwordOptions);
+  console.log("Password length: " + passwordOptions.length);
+  const password = generatePassword(passwordOptions.length, selectedOptions);
+  console.log("Password: " + password);
+  const passwordText = document.querySelector('#password');
 
   passwordText.value = password;
+  passwordText.focus();
+  passwordText.select();
+  alert("Password generated successfully!");
+};
+
+const generateBtn = document.querySelector('#generate');
+generateBtn.addEventListener('click', writePassword);
+
+
+/*I added the script for a dark button instead of creating a seperate page*/
+const darkBtn = document.getElementById("dark-btn");
+const sun = document.getElementById("sun");
+const moon = document.getElementById("moon");
+
+darkBtn.onclick = () => {
+  darkBtn.classList.toggle("dark-btn-on");
+  document.body.classList.toggle("dark-theme");
+
+  if (localStorage.getItem("theme") == "light") {
+    localStorage.setItem("theme", "dark");
+    sun.classList.add("d-none");
+    moon.classList.remove("d-none");
+  } else {
+    localStorage.setItem("theme", "light");
+    moon.classList.add("d-none");
+    sun.classList.remove("d-none");
+  }
+};
+
+if (localStorage.getItem("theme") == "light") {
+  darkBtn.classList.remove("dark-btn-on");
+  document.body.classList.remove("dark-theme");
+  moon.classList.add("d-none");
+  sun.classList.remove("d-none");
+} else if (localStorage.getItem("theme") == "dark") {
+  darkBtn.classList.add("dark-btn-on");
+  document.body.classList.add("dark-theme");
+  sun.classList.add("d-none");
+  moon.classList.remove("d-none");
+} else {
+  localStorage.setItem("theme", "light");
+  darkBtn.classList.remove("dark-btn-on");
+  document.body.classList.remove("dark-theme");
+  moon.classList.add("d-none");
+  sun.classList.remove("d-none");
 }
 
-// Add event listener to generate button
-generateBtn.addEventListener('click', writePassword);
+localStorage.getItem("theme");

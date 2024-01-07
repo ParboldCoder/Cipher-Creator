@@ -1,52 +1,171 @@
+/*Modified the CSS to include a Dark Mode and NavBar*/
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
+:root {
+  --bg-before-after-dark-mode: #2a2a2a;
+  --bg-before-after: #e7e9eb;
+  --bg-black-dark-mode: #1d1d1d;
+  --bg-black: #333333;
+  --bg-button: #8a5eff;
+  --bg-color-card: #ffffff;
+  --bg-color: #f9fbfd;
+  --bg-textarea: #e7e9eb;
+  --border-color-dark-mode: rgba(245, 245, 245, 0.5);
+  --border-color: #c0c7cf;
+  --box-shadow-card-dark-mode: rgba(245, 245, 245, 0.2) 0px 2px 8px 0px;
+  --box-shadow-card: rgba(0, 0, 0, 0.15) 0px 2px 8px 0px;
+  --font-color-button: #ffffff;
+  --font-color-dark-mode: whitesmoke;
+  --font-color-selection-dark-mode: #333;
+  --font-color-selection: #333;
+  --font-color-textarea-placeholder: #333;
+  --font-color-textarea: #333;
+  --font-color: #3b4954;
+  --selection: #8a5eff;
+}
+
+
+
+::selection {
+  background-color: var(--selection);
+  color: var(--font-color-selection);
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: var(--bg-color, var(--bg-before-after));
+}
+
+.dark-theme .navbar {
+  background-color: var(--bg-black, var(--bg-before-after-dark-mode));
+}
+
+#profile-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 html,
 body,
 .wrapper {
-  height: 100%;
+  height: 0%;
   margin: 0;
   padding: 0;
 }
 
 body {
   font-family: sans-serif;
-  background-color: #f9fbfd;
+  background-color: var(--bg-color);
+  color: var(--font-color);
 }
 
 .wrapper {
-  padding-top: 30px;
+  position: relative;
+  padding-top: 1px;
   padding-left: 20px;
   padding-right: 20px;
+  padding-bottom: 7.5rem;
+  max-width: 840px;
+  margin: 0 auto;
+}
+
+.wrapper h1 {
+  font-size: 50px;
+  color: var(--font-color);
+}
+
+.dark-theme {
+  --bg-before-after: var(--bg-before-after-dark-mode);
+  --bg-color-card: var(--bg-black-dark-mode);
+  --bg-color: var(--bg-black);
+  --bg-textarea: var(--bg-black);
+  --border-color: var(--border-color-dark-mode);
+  --box-shadow-card: var(--box-shadow-card-dark-mode);
+  --font-color-selection: var(--font-color-selection-dark-mode);
+  --font-color-textarea-placeholder: var(--font-color-dark-mode);
+  --font-color-textarea: var(--font-color-dark-mode);
+  --font-color: var(--font-color-dark-mode);
+}
+
+#dark-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #858585;
+  width: 45px;
+  border-radius: 15px;
+  padding: 2px 3px;
+  cursor: pointer;
+  display: flex;
+  transition: padding-left 0.4s ease-in-out, background-color 1.5s ease-in-out;
+}
+
+#dark-btn span {
+  width: 18px;
+  height: 18px;
+  background-color: #fff;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+#dark-btn.dark-btn-on {
+  padding-left: 23px;
+  background-color: var(--bg-black-dark-mode);
+}
+
+.fa-solid {
+  color: var(--font-color);
+  font-size: 1.5rem;
+  position: absolute;
+  top: 1.2rem;
+  right: 5rem;
+}
+
+#sun.d-none {
+  display: none;
+}
+
+#moon.d-none {
+  display: none;
 }
 
 header {
+  margin-top: 3rem;
   text-align: center;
   padding: 20px;
   padding-top: 0px;
-  color: hsl(206, 17%, 28%);
+  color: var(--font-color);
 }
 
 .card {
-  background-color: hsl(0, 0%, 100%);
-  border-radius: 5px;
+  background-color: var(--bg-color-card);
+  border-radius: 1rem;
   border-width: 1px;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px 0px;
-  color: hsl(206, 17%, 28%);
+  box-shadow: var(--box-shadow-card);
+  color: var(--font-color);
   font-size: 18px;
   margin: 0 auto;
   max-width: 800px;
   padding: 30px 40px;
 }
 
+.card h2 {
+  text-align: center;
+}
+
 .card-header::after {
   content: " ";
   display: block;
   width: 100%;
-  background: #e7e9eb;
+  background-color: var(--bg-before-after);
   height: 2px;
 }
 
@@ -58,27 +177,25 @@ header {
   text-align: center;
 }
 
-.card-footer::before {
+.card-footer::before,
+.card-footer::after {
   content: " ";
   display: block;
   width: 100%;
-  background: #e7e9eb;
+  background-color: var(--bg-before-after);
   height: 2px;
 }
 
 .card-footer::after {
-  content: " ";
-  display: block;
   clear: both;
 }
 
 .btn {
   border: none;
-  background-color: hsl(360, 91%, 36%);
+  background-color: var(--bg-button);
   border-radius: 25px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 6px 0px rgba(0, 0, 0, 0.2) 0px 1px 1px
-    0px;
-  color: hsl(0, 0%, 100%);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 6px 0px rgba(0, 0, 0, 0.2) 0px 1px 1px 0px;
+  color: var(--font-color-button);
   display: inline-block;
   font-size: 22px;
   line-height: 22px;
@@ -101,7 +218,8 @@ button[disabled] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  border: none;
+  background-color: var(--bg-textarea);
+  color: var(--font-color);
   display: block;
   width: 100%;
   padding-top: 15px;
@@ -112,11 +230,20 @@ button[disabled] {
   text-align: center;
   margin-top: 10px;
   margin-bottom: 10px;
-  border: 2px dashed #c0c7cf;
+  border: 2px dashed var(--border-color);
   border-radius: 6px;
   resize: none;
   overflow: hidden;
 }
+
+#password::placeholder {
+  color: var(--font-color-textarea-placeholder);
+}
+
+#password:focus {
+  transition: all 0.4s ease-in-out;
+}
+
 
 @media (max-width: 690px) {
   .btn {
@@ -131,6 +258,10 @@ button[disabled] {
 }
 
 @media (max-width: 500px) {
+  .card h2 {
+    text-align: center;
+  }
+
   .btn {
     font-size: 0.8rem;
   }
