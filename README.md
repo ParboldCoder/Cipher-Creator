@@ -17,13 +17,29 @@ Integrated a dark mode toggle button without creating a separate page for user p
 
 ## Application Image
 <br>
-![Application Image](./assets/screenshot.png)
+
+### <u>Dark Mode</u>
+
 <br>
+
+![Cipher Screenshot](./assets/CipherScreenshotDark.png)
+
+<br>
+<br>
+
+### <u>Light Mode</u>
+
+<br>
+
+![Cipher Screenshot](./assets/CipherScreenshotLight.png)
+
 <br>
 
 
 ## Application URLs
+https://parboldcoder.github.io/Cipher-Creator/
 <br>
+https://github.com/ParboldCoder/Cipher-Creator
 <br>
 
 

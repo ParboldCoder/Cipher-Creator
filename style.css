@@ -6,26 +6,26 @@
 }
 
 :root {
-  --bg-before-after-dark-mode: #2a2a2a;
-  --bg-before-after: #e7e9eb;
-  --bg-black-dark-mode: #1d1d1d;
-  --bg-black: #333333;
-  --bg-button: #8a5eff;
-  --bg-color-card: #ffffff;
-  --bg-color: #f9fbfd;
-  --bg-textarea: #e7e9eb;
-  --border-color-dark-mode: rgba(245, 245, 245, 0.5);
-  --border-color: #c0c7cf;
-  --box-shadow-card-dark-mode: rgba(245, 245, 245, 0.2) 0px 2px 8px 0px;
-  --box-shadow-card: rgba(0, 0, 0, 0.15) 0px 2px 8px 0px;
-  --font-color-button: #ffffff;
-  --font-color-dark-mode: whitesmoke;
+  --bg-before-after-dark-mode: darkslategrey;
+  --bg-before-after: gainsboro;
+  --bg-black-dark-mode: black;
+  --bg-black: dimgray;
+  --bg-button: blueviolet;
+  --bg-color-card: white;
+  --bg-color: aliceblue;
+  --bg-textarea: gainsboro;
+  --border-color-dark-mode: whitesmoke;
+  --border-color: silver;
+  --box-shadow-card-dark-mode: whitesmoke 0px 2px 8px 0px;
+  --box-shadow-card: rgba(black, 0.15) 0px 2px 8px 0px;
+  --font-color-button: white;
+  --font-color-dark-mode: azure;
   --font-color-selection-dark-mode: #333;
   --font-color-selection: #333;
   --font-color-textarea-placeholder: #333;
   --font-color-textarea: #333;
   --font-color: #3b4954;
-  --selection: #8a5eff;
+  --selection: blueviolet;
 }
 
 
